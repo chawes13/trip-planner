@@ -1,0 +1,38 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <h1><%= trip.name %></h1>
+    <h3 id="tripDates"><%= trip.tripDates %></h3>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="list-group">
+                <a href="#" class="list-group-item show-tile-lg">
+                    <!-- Replace icon -->
+                    <span class="pull-right"><i class="fa fa-chevron-right fa-2x see-details" aria-hidden="true"></i></span>
+                    <h4 class="list-group-item-heading">Itinerary</h4>
+                </a>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <div class="list-group">
+                <a href="#" class="list-group-item show-tile-lg">
+                    <!-- Replace icon -->
+                    <span class="pull-right"><i class="fa fa-chevron-right fa-2x see-details" aria-hidden="true"></i></span>
+                    <h4 class="list-group-item-heading">Schedule</h4>
+                </a>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <div class="list-group">
+                <a href="/trips/<%=trip._id%>/expenses" class="list-group-item show-tile-lg">
+                    <!-- Replace icons -->
+                    <span class="pull-right"><i class="fa fa-chevron-right fa-2x see-details" aria-hidden="true"></i></span>
+                    <h4 class="list-group-item-heading">Expenses</h4>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>

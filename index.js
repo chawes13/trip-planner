@@ -1,12 +1,45 @@
-var express     = require('express'),
-    app         = express(),
-    mongoose    = require('mongoose'),
-    bodyParser  = require('body-parser');
+var express         = require('express'),
+    app             = express(),
+    mongoose        = require('mongoose'),
+    bodyParser      = require('body-parser'),
+    passport        = require('passport'),
+    LocalStrategy   = require('passport-local'),
+    User            = require('./models/user'),
+    Expense         = require('./models/expense'),
+    Trip            = require('./models/trip'),
+    seedDB          = require('./seeds');
     
-//Configuration
+//Mongo configuration
+var url = process.env.DATABASEURL || "mongodb://localhost/trip-planner";
+mongoose.connect(url, {useMongoClient: true});
+mongoose.promise = global.promise;
+
+//Express configurations
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
+
+//For testing purposes only
+seedDB();
+
+//Passport configuration
+app.use(require('express-session')({
+    secret: "This is my first hackathon",
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//Middleware to have easy access to user
+app.use(function(req, res, next){
+   res.locals.currentUser = req.user;
+   next();
+});
 
 //======================
 //       ROUTES
@@ -14,34 +47,67 @@ app.use(express.static(__dirname + "/public"));
 
 //HOME -- tile view of various options for the trip (mobile only)
 app.get("/", function(req, res){
-    res.render("index");
+    if(req.isAuthenticated()){
+        Trip.find({traveller_ids: req.user._id}, function(err, trips){
+           if(err){
+                console.log(err);
+           } else {
+                res.render("trips/index", {trips: trips});                
+           }
+        });
+    } else {
+        res.redirect("/login");
+    }
 });
+
+app.get("/login", function(req, res){
+    res.render("auth/login");
+});
+
+//authenticate
+app.post("/login", passport.authenticate("local", {
+        failureRedirect: "/login",
+        successRedirect: "/"
+}));
 
 //INDEX -- show a list summary of the expenses created (abbrev. desc, amount, created by)
 //Option to add new expense
-app.get("/expenses", function(req, res){
+app.get("/trips/:id/expenses", function(req, res){
     
 });
 
 //NEW -- create a new expense and assign it to individuals
-app.get("/expenses/new", function(req, res){
-    
+app.get("/trips/:id/expenses/new", function(req, res){
+    res.render("expenses/new")
 });
 
 //CREATE -- post route, redirect to /expenses
-app.post("/expenses", function(req, res){
+app.post("/trips/:id/expenses", function(req, res){
     
 });
 
 //SHOW -- review the read only version of the expense (DO LAST)
-app.get("/expenses/:id", function(req, res){
+app.get("/trips/:id/expenses/:id", function(req, res){
     
 });
 
 //Summary, unique to the individual
 //calculates who owes who what
-app.get("/expenses/summary", function(req, res){
+app.get("/trips/:id/expenses/summary", function(req, res){
     
+});
+
+//Show specific trip with options (Travel Itinerary, Schedule, Expenses)
+app.get("/trips/:id", function(req, res){
+    Trip.findById(req.params.id, function(err, foundTrip){
+       if(err){
+           console.log(err);
+       } else if(foundTrip) {
+           res.render("trips/show", {trip: foundTrip});
+       } else {
+           res.redirect("trips/index");
+       }
+    });
 });
 
 app.listen(process.env.PORT, process.env.IP, function(){
