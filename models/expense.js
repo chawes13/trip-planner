@@ -13,4 +13,8 @@ var expenseSchema = new mongoose.Schema({
     createdBy: String
 });
 
+expenseSchema.virtual('splitAmount').get(function(){
+   return this.txnAmount / this.traveller_ids.length; 
+});
+
 module.exports = mongoose.model("Expense", expenseSchema);

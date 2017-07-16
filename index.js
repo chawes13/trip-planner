@@ -7,7 +7,8 @@ var express         = require('express'),
     User            = require('./models/user'),
     Expense         = require('./models/expense'),
     Trip            = require('./models/trip'),
-    seedDB          = require('./seeds');
+    seedDB          = require('./seeds'),
+    calc            = require('./calculation');
     
 //Mongo configuration
 var url = process.env.DATABASEURL || "mongodb://localhost/trip-planner";
@@ -117,15 +118,32 @@ app.post("/trips/:id/expenses", function(req, res){
     });
 });
 
-//SHOW -- review the read only version of the expense (DO LAST)
-app.get("/trips/:id/expenses/:id", function(req, res){
-    
-});
-
 //Summary, unique to the individual
 //calculates who owes who what
 app.get("/trips/:id/expenses/summary", function(req, res){
-    
+    Trip.findById(req.params.id, function(err, foundTrip){
+       if(err){
+           console.log(err);
+       } else if(foundTrip) {
+            Expense.find({trip_id: foundTrip._id}, function(err, foundExpenses){
+                if(err){
+                    console.log(err);
+                    res.redirect("/trips/"+req.params.id+"/expenses");
+                } else {
+                    var results = calc.amountOwed(foundExpenses, req.user);
+                    console.log(results);
+                    res.render("expenses/summary", {trip: foundTrip, results: results});
+                }
+           });
+       } else {
+           res.redirect("/");
+       }
+    });
+});
+
+//SHOW -- review the read only version of the expense (DO LAST)
+app.get("/trips/:id/expenses/:id", function(req, res){
+    res.send("Functionality pending");
 });
 
 //Show specific trip with options (Travel Itinerary, Schedule, Expenses)

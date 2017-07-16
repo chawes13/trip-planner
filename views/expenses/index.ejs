@@ -18,7 +18,12 @@
                 <% }); %>
         </table>
     <% } %>
-    <a href="/trips/<%= trip_id%>/expenses/new" id="newExpense" class="btn btn-success">Create New Expense</a>
+    <div class="expense-btns">
+        <a href="/trips/<%= trip_id%>/expenses/new" class="btn btn-success btn-lg">Create New Expense</a>
+        <% if(expenses && expenses.length > 0){ %>
+            <a href="/trips/<%= trip_id%>/expenses/summary" class="btn btn-info btn-lg">View Summary</a>
+        <% } %>
+    </div>
 </div>
 
 <% include ../partials/footer %>

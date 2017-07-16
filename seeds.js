@@ -21,9 +21,14 @@ var trips = [
   {name: "Lisbon", start: new Date(2017, 8, 10), end: new Date(2017, 8, 12), destinations:["Copenhagen"], traveller_ids: [u1_id, u2_id, u3_id]}
 ];
 
+var expenses = [
+  {description: "Air BnB", txnAmount: 50, currency: "GBP", traveller_ids: [u1_id, u2_id], createdBy: "chawes"},
+  {description: "Hostel", txnAmount: 300, currency: "GBP", traveller_ids: [u1_id, u2_id, u3_id], createdBy: "chawes"},
+  {description: "Brunch", txnAmount: 20, currency: "GBP", traveller_ids: [u3_id], createdBy: "chawes"}
+];
+
 function seedDB(){
-    //createUser();
-    createTrips();
+    createTripsAndExpenses();
 }
 
 function createUser(){
@@ -36,19 +41,33 @@ function createUser(){
     });
 }
 
-function createTrips(){
-    Trip.remove({}, function(err){
+function createTripsAndExpenses(){
+    Expense.remove({}, function(err){
         if(err){
             console.log(err);
         } else {
-            trips.forEach(function(trip){
-                Trip.create(trip, function(err, newTrip){
-                   if(err){
-                       console.log(err);
-                   } else {
-                       console.log("Successfully created trip: " + newTrip._id);
-                   }
-                });
+            Trip.remove({}, function(err){
+                if(err){
+                    console.log(err);
+                } else {
+                    trips.forEach(function(trip){
+                        Trip.create(trip, function(err, newTrip){
+                           if(err){
+                               console.log(err);
+                           } else {
+                               console.log("Successfully created trip: " + newTrip._id);
+                               expenses.forEach(function(expense){
+                                  expense.trip_id = newTrip._id;
+                                  Expense.create(expense, function(err){
+                                      if(err){
+                                          console.log(err);
+                                      }
+                                  });
+                               });
+                           }
+                        });
+                    });
+                }
             });
         }
     });

@@ -45,6 +45,10 @@ th {
     color: white;
 }
 
+.expense-btns {
+    margin-top: 15px;
+}
+
 #tripDates {
     margin-top: -10px;
     color: #fc850f;
@@ -53,8 +57,4 @@ th {
 
 #apply {
     color: white;
-}
-
-#newExpense {
-    margin-top: 15px;
 }

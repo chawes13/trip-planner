@@ -20,7 +20,7 @@
                 </div>
             <% }); %>
         <div class="form-group" hidden>
-            <input class="form-control" type="text" name="expense[createdBy]" value="<%= currentUser %>">    
+            <input class="form-control" type="text" name="expense[createdBy]" value="<%= currentUser.username %>">    
         </div>
         <button class="btn btn-success btn-block" type="submit">Create</button>
     </form>
