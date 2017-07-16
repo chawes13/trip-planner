@@ -1,0 +1,29 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <h1>New Expense</h1>
+    <form action="/trips/<%= trip._id %>/expenses" method="POST">
+        <div class="form-group">
+            <input class="form-control" type="text" name="expense[description]" placeholder="description" required>            
+        </div>
+        <div class="form-group input-group">
+            <span class="input-group-addon">£</span>
+            <input class="form-control" type="number" name="expense[txnAmount]" placeholder="amount" required>    
+        </div>
+        <h5 id="apply">Apply to:</h5>
+            <% users.forEach(function(user){ %>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="expense[traveller_ids]" value="<%= user._id %>">
+                        <%= user.displayName %>
+                    </label>
+                </div>
+            <% }); %>
+        <div class="form-group" hidden>
+            <input class="form-control" type="text" name="expense[createdBy]" value="<%= currentUser %>">    
+        </div>
+        <button class="btn btn-success btn-block" type="submit">Create</button>
+    </form>
+</div>
+
+<% include ../partials/footer %>

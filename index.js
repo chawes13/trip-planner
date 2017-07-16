@@ -73,17 +73,48 @@ app.post("/login", passport.authenticate("local", {
 //INDEX -- show a list summary of the expenses created (abbrev. desc, amount, created by)
 //Option to add new expense
 app.get("/trips/:id/expenses", function(req, res){
-    
+    Expense.find({trip_id: req.params.id}, function(err, foundExpenses){
+        if(err){
+            console.log(err);
+            res.redirect("/trips/"+req.params.id);
+        } else {
+           res.render("expenses/index", {expenses: foundExpenses, trip_id: req.params.id});
+        }
+    });
 });
 
 //NEW -- create a new expense and assign it to individuals
+//TODO: maintain trip info across requests?
 app.get("/trips/:id/expenses/new", function(req, res){
-    res.render("expenses/new")
+    Trip.findById(req.params.id, function(err, foundTrip){
+       if(err){
+           console.log(err);
+       } else if(foundTrip) {
+           User.find({_id: {$in: foundTrip.traveller_ids}}, function(err, foundUsers){
+               if(err){
+                   console.log(err);
+                   res.redirect("/");
+               } else {
+                   res.render("expenses/new", {trip: foundTrip, users: foundUsers});
+               }
+           });
+       } else {
+           res.redirect("/");
+       }
+    });
 });
 
 //CREATE -- post route, redirect to /expenses
 app.post("/trips/:id/expenses", function(req, res){
-    
+    var expense = req.body.expense;
+    expense.currency = "GBP"; //will come in dynamically later! (not MVP)
+    expense.trip_id = req.params.id; //should probably come from form?
+    Expense.create(expense, function(err){
+        if(err){
+            console.log(err);
+        }
+        res.redirect("/trips/"+req.params.id+"/expenses");
+    });
 });
 
 //SHOW -- review the read only version of the expense (DO LAST)
@@ -105,7 +136,7 @@ app.get("/trips/:id", function(req, res){
        } else if(foundTrip) {
            res.render("trips/show", {trip: foundTrip});
        } else {
-           res.redirect("trips/index");
+           res.redirect("/");
        }
     });
 });

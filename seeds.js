@@ -46,7 +46,7 @@ function createTrips(){
                    if(err){
                        console.log(err);
                    } else {
-                       console.log("Successfully created trip: " + newTrip.name);
+                       console.log("Successfully created trip: " + newTrip._id);
                    }
                 });
             });

@@ -7,6 +7,14 @@ h1 {
     color: white;
 }
 
+th {
+    color: white;
+}
+
+.table-striped>tbody>tr:nth-of-type(even){
+    background-color: white;
+}
+
 .container {
     margin: 0 auto;
     max-width: 800px;
@@ -33,8 +41,20 @@ h1 {
     height: 100px;
 }
 
+.checkbox {
+    color: white;
+}
+
 #tripDates {
     margin-top: -10px;
     color: #fc850f;
     letter-spacing: -1px;
+}
+
+#apply {
+    color: white;
+}
+
+#newExpense {
+    margin-top: 15px;
 }
