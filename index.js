@@ -7,8 +7,7 @@ var express         = require('express'),
     User            = require('./models/user'),
     Expense         = require('./models/expense'),
     Trip            = require('./models/trip'),
-    seedDB          = require('./seeds'),
-    calc            = require('./calculation');
+    seedDB          = require('./seeds');
     
 //Mongo configuration
 var url = process.env.DATABASEURL || "mongodb://localhost/trip-planner";
@@ -119,7 +118,7 @@ app.post("/trips/:id/expenses", function(req, res){
 });
 
 //Summary, unique to the individual
-//calculates who owes who what
+//calculates who owes who what...blocked here
 app.get("/trips/:id/expenses/summary", function(req, res){
     Trip.findById(req.params.id, function(err, foundTrip){
        if(err){
@@ -130,9 +129,9 @@ app.get("/trips/:id/expenses/summary", function(req, res){
                     console.log(err);
                     res.redirect("/trips/"+req.params.id+"/expenses");
                 } else {
-                    var results = calc.amountOwed(foundExpenses, req.user);
-                    console.log(results);
-                    res.render("expenses/summary", {trip: foundTrip, results: results});
+                    // var results = calc.amountOwed(foundExpenses, req.user);
+                    // console.log(results);
+                    res.render("expenses/summary", {trip: foundTrip});
                 }
            });
        } else {

@@ -1,5 +1,39 @@
 <% include ../partials/header %>
 
-<h1>Expense Summary</h1>
+<div class="container">
+    <h1>Expense Breakdown</h1>
+    <h3 class="header">You are in good standing and are due a total of <span id="due">£205.00</span></h3>
+    <!--<h3>Total owed: <span id="owed">£0.00</span></h3>-->
+    
+    <div id="amtDueBreakdown" class="panel panel-success">
+        <div class="panel-heading">
+            <span class="badge">£245.00</span>
+            Amount Due
+        </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="badge">£125.00</span>
+                    Sara
+                </li>
+                <li class="list-group-item">
+                    <span class="badge">£120.00</span>
+                    Andrew
+                </li>
+            </ul>
+    </div>
+    <div id="amtOwedBreakdown" class="panel panel-danger">
+        <div class="panel-heading">
+            <span class="badge">£40.00</span>
+            Amount Owed
+        </div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="badge">£40.00</span>
+                    Matt
+                </li>
+            </ul>
+    </div>
+    <a href="/trips/<%= trip._id %>/expenses">Return to summary</a>
+</div>
 
 <% include ../partials/footer %>

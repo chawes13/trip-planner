@@ -1,7 +1,7 @@
 <% include ../partials/header %>
 
 <div class="container">
-    <h1>Expenses</h1>
+    <h1>Expense Summary</h1>
     <% if(expenses && expenses.length > 0){ %>
         <table class="table table-striped">
             <thead>
@@ -19,9 +19,9 @@
         </table>
     <% } %>
     <div class="expense-btns">
-        <a href="/trips/<%= trip_id%>/expenses/new" class="btn btn-success btn-lg">Create New Expense</a>
+        <a href="/trips/<%= trip_id%>/expenses/new" class="btn btn-success btn-lg btn-block">Create New Expense</a>
         <% if(expenses && expenses.length > 0){ %>
-            <a href="/trips/<%= trip_id%>/expenses/summary" class="btn btn-info btn-lg">View Summary</a>
+            <a href="/trips/<%= trip_id%>/expenses/summary" class="btn btn-info btn-lg btn-block">View Breakdown</a>
         <% } %>
     </div>
 </div>

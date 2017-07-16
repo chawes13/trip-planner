@@ -5,30 +5,33 @@ var User            = require('./models/user'),
     mongoose        = require('mongoose');
     
 var user = {
-    username: "aspitz",
+    username: "mrufener",
     password: "test",
-    name: "Andrew",
-    surname: "Spitz"
+    name: "Matt",
+    surname: "Rufener"
 };    
 
 var u1_id = mongoose.Types.ObjectId("596a52f4a5751523051e4a20");
 var u2_id = mongoose.Types.ObjectId("596a52defb768e22ecfd52b0");
 var u3_id = mongoose.Types.ObjectId("596a4b61862ea61ddaf47a8e");
+var u4_id = mongoose.Types.ObjectId("596b3fac48b67212652f3c82");
 
 var trips = [
-  {name: "Copenhagen", start: new Date(2017, 6, 27), end: new Date(2017, 6, 30), destinations:["Copenhagen"], traveller_ids: [u1_id, u2_id, u3_id]},
-  {name: "Krakow", start: new Date(2017, 7, 28), end: new Date(2017, 7, 30), destinations:["Copenhagen"], traveller_ids: [u1_id, u2_id, u3_id]},
-  {name: "Lisbon", start: new Date(2017, 8, 10), end: new Date(2017, 8, 12), destinations:["Copenhagen"], traveller_ids: [u1_id, u2_id, u3_id]}
+  {name: "Copenhagen", start: new Date(2017, 6, 27), end: new Date(2017, 6, 30), destinations:["Copenhagen"], traveller_ids: [u1_id, u2_id, u3_id, u4_id]},
+  {name: "Krakow", start: new Date(2017, 7, 28), end: new Date(2017, 7, 30), destinations:["Copenhagen"], traveller_ids: [u1_id, u2_id, u3_id, u4_id]},
+  {name: "Lisbon", start: new Date(2017, 8, 10), end: new Date(2017, 8, 12), destinations:["Copenhagen"], traveller_ids: [u1_id, u2_id, u3_id, u4_id]}
 ];
 
 var expenses = [
   {description: "Air BnB", txnAmount: 50, currency: "GBP", traveller_ids: [u1_id, u2_id], createdBy: "chawes"},
   {description: "Hostel", txnAmount: 300, currency: "GBP", traveller_ids: [u1_id, u2_id, u3_id], createdBy: "chawes"},
-  {description: "Brunch", txnAmount: 20, currency: "GBP", traveller_ids: [u3_id], createdBy: "chawes"}
+  {description: "Brunch", txnAmount: 20, currency: "GBP", traveller_ids: [u3_id], createdBy: "chawes"},
+  {description: "Bike Rental", txnAmount: 80, currency: "GBP", traveller_ids: [u1_id, u4_id], createdBy: "mrufener"}
 ];
 
 function seedDB(){
     createTripsAndExpenses();
+    //createUser();
 }
 
 function createUser(){

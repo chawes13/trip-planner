@@ -2,7 +2,8 @@
 
 <div class="container">
     <h1>New Expense</h1>
-    <form action="/trips/<%= trip._id %>/expenses" method="POST">
+    <div class="form-layout">
+       <form action="/trips/<%= trip._id %>/expenses" method="POST">
         <div class="form-group">
             <input class="form-control" type="text" name="expense[description]" placeholder="description" required>            
         </div>
@@ -10,7 +11,7 @@
             <span class="input-group-addon">£</span>
             <input class="form-control" type="number" name="expense[txnAmount]" placeholder="amount" required>    
         </div>
-        <h5 id="apply">Apply to:</h5>
+        <h5 class="header-sm">Apply to:</h5>
             <% users.forEach(function(user){ %>
                 <div class="checkbox">
                     <label>
@@ -22,8 +23,10 @@
         <div class="form-group" hidden>
             <input class="form-control" type="text" name="expense[createdBy]" value="<%= currentUser.username %>">    
         </div>
-        <button class="btn btn-success btn-block" type="submit">Create</button>
+        <button id="createNew" class="btn btn-success btn-block" type="submit">Create</button>
     </form>
+    <a id="cancelNew" class="btn btn-default btn-block" href="/trips/<%= trip._id %>/expenses">Cancel</a>
+    </div>
 </div>
 
 <% include ../partials/footer %>
